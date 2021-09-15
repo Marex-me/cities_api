@@ -1,0 +1,12 @@
+column_name	column_type	column_constraint
+country	text	
+year	integer	
+area	text	
+sex	text	
+city_name	text	
+city_type	text	
+record_type	text	
+reliability	text	
+source_year	text	
+value	integer	
+value_footnotes	text	
