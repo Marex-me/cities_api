@@ -31,7 +31,7 @@ class CitiesAPI(Resource):
             elif prov_val == 'false':
                 prov_filt_nest = 'AND reliability = "Final figure, complete" '
                 prov_filt = 'AND p.reliability = "Final figure, complete" '
-        query_path = '../db_files/queries/city_population.sql'
+        query_path = 'db_files/queries/city_population.sql'
         with open(query_path, 'r') as query_file:
             query_base = query_file.read()
         with DBMaster('cities_api_db') as dbm:
