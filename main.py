@@ -25,5 +25,8 @@ if __name__ == '__main__':
     # writing population data into db
     pop_file_path = base_path + '/populations.csv'
     population_data = pd.read_csv(pop_file_path, nrows=17059)
+    pop_names = ['country', 'year', 'area', 'sex', 'city_name', 'city_type', 'record_type', 'reliability',
+                 'source_year', 'value', 'value_footnotes']
+    population_data.columns = pop_names
     with DBMaster('cities_api_db') as dbm:
         dbm.insert_df_into_table(table_name='populations', data=population_data)

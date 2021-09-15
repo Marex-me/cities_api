@@ -1,6 +1,8 @@
 from flask import Flask, request
 from flask_restful import Api, Resource
 
+from utilities.db_tools import DBMaster
+
 app = Flask(__name__)
 api = Api(app)
 
@@ -8,7 +10,25 @@ api = Api(app)
 class CitiesAPI(Resource):
     def get(self):
         params = request.get_json()
-        return params
+        if len(params) == 0:
+            return 'Bad request', 400
+        try:
+            city_name = params['CityName'].lower()
+        except KeyError:
+            return 'Bad request', 400
+        if 'year' in params.keys():
+            try:
+                year_filt = int(params["year"])
+            except ValueError:
+                return 'Bad request', 400
+        else:
+            year_filt = 9999
+        query_path = '../db_files/queries/city_population.sql'
+        with open(query_path, 'r') as query_file:
+            query_base = query_file.read()
+        with DBMaster('cities_api_db') as dbm:
+            sql_res = dbm.fetch_data(query=query_base.format(city_name, year_filt))
+        return {'population': sql_res[0][0]}
 
     def post(self):
         pass
